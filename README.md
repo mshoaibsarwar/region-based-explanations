@@ -3,7 +3,7 @@
 A principled framework for explaining 3D point cloud classification decisions through Shapley value attribution at the region level.
 
 <p align="center">
-  <img src="figures/pipeline.png" width="98%"/>
+  <img src="figures/pipeline.png"/>
 </p>
 
 ## Overview
