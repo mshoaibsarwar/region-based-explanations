@@ -46,8 +46,8 @@ GIR interpolation keeps perturbed points close to the original manifold, unlike 
 R-SHAP produces differentiated region importances that identify which parts of an object contribute most to classification.
 
 <p align="center">
-  <img src="figures/protocol7_chair.png" width="48%"/>
-  <img src="figures/protocol7_desk.png" width="48%"/>
+  <img src="figures/protocol7_chair.png"/>
+  <img src="figures/protocol7_desk.png"/>
 </p>
 
 ### Faithfulness
