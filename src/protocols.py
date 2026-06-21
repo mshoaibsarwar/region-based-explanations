@@ -76,10 +76,9 @@ def diagnostic_value_function_signal(model, test_dataset, device, n_regions=8):
 
     return primary_config, primary_drops
 
-best_config, best_drops = diagnostic_value_function_signal(model, test_dataset, device)
 
 
-def protocol_1_synthetic_manifolds():
+def protocol_1_synthetic_manifolds(output_dir='results/'):
     """
     Protocol 1: Synthetic manifold (sphere).
     """
@@ -167,16 +166,15 @@ def protocol_1_synthetic_manifolds():
 
 
     plt.tight_layout()
-    plt.savefig(f'{output_directory}protocol1_sphere_manifold.png', dpi=600, bbox_inches='tight')
+    plt.savefig(f'{output_dir}protocol1_sphere_manifold.png', dpi=600, bbox_inches='tight')
     plt.show()
 
     return results
 
 # Run Protocol 1
-protocol1_results = protocol_1_synthetic_manifolds()
 
 
-def protocol_1_real_data():
+def protocol_1_real_data(output_dir='results/'):
     """
     Protocol 1: GIR on real point cloud data.
     """
@@ -231,13 +229,12 @@ def protocol_1_real_data():
     ax3.legend()
 
     plt.tight_layout()
-    plt.savefig(f'{output_directory}protocol1_real_data.png', dpi=600, bbox_inches='tight')
+    plt.savefig(f'{output_dir}protocol1_real_data.png', dpi=600, bbox_inches='tight')
     plt.show()
 
     return chamfer_dist
 
 # Run Protocol 1 (Real Data)
-protocol1_real_results = protocol_1_real_data()
 
 
 def protocol_1_per_class(test_dataset, device):
@@ -276,10 +273,9 @@ def protocol_1_per_class(test_dataset, device):
 
     return results
 
-protocol1_per_class_results = protocol_1_per_class(test_dataset, device)
 
 
-def protocol_2(model, test_dataset, device, ref=best_config[0], vs=best_config[1]):
+def protocol_2(model, test_dataset, device, ref='gir', vs='logit', output_dir='results/'):
 
     M_values = [4, 8, 12, 16, 20, 24]
 
@@ -337,15 +333,14 @@ def protocol_2(model, test_dataset, device, ref=best_config[0], vs=best_config[1
     axes[2].set_title("Importance Distribution (M=8)")
 
     plt.tight_layout()
-    plt.savefig(f'{output_directory}protocol2.png', dpi=600, bbox_inches='tight')
+    plt.savefig(f'{output_dir}protocol2.png', dpi=600, bbox_inches='tight')
     plt.show()
 
     return results
 
-p2_results = protocol_2(model, test_dataset, device)
 
 
-def protocol_3(model, test_dataset, device, n_regions=8, ref=best_config[0], vs=best_config[1]):
+def protocol_3(model, test_dataset, device, n_regions=8, ref='gir', vs='logit'):
 
     sample_pc, label = test_dataset[0]
     sample_pc = sample_pc.numpy()
@@ -398,12 +393,11 @@ def protocol_3(model, test_dataset, device, n_regions=8, ref=best_config[0], vs=
 
     return all_importances
 
-p3_results = protocol_3(model, test_dataset, device)
 
 
 def protocol_4(model, test_dataset, device, n_regions=8,
-                     ref=best_config[0], vs=best_config[1],
-                     output_dir=output_directory):
+                     ref='gir', vs='logit',
+                     output_dir='results/'):
     """
     Protocol 4: Faithfulness with deletion/insertion curves.
     """
@@ -523,10 +517,9 @@ def protocol_4(model, test_dataset, device, n_regions=8,
 
     return results
 
-p4_results = protocol_4(model, test_dataset, device)
 
 
-def protocol_5(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=best_config[1], output_dir=output_directory):
+def protocol_5(model, test_dataset, device, n_regions=8,ref='gir', vs='logit', output_dir='results/'):
     """
     Protocol 5: Gradient alignment diagnostic with statistical testing.
     Tests on MULTIPLE samples for statistical power.
@@ -628,7 +621,6 @@ def protocol_5(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=b
 
     return correlations, ensemble_importances
 
-p5_corr, p5_ens = protocol_5(model, test_dataset, device)
 
 
 def rotation_matrix(axis, theta):
@@ -641,7 +633,7 @@ def rotation_matrix(axis, theta):
         [2*(b*d-a*c), 2*(c*d+a*b), a*a+d*d-b*b-c*c]
     ])
 
-def protocol_6(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=best_config[1],output_dir=output_directory):
+def protocol_6(model, test_dataset, device, n_regions=8,ref='gir', vs='logit',output_dir='results/'):
     """
     Protocol 6: Rotation equivariance with model invariance baseline.
     """
@@ -721,10 +713,9 @@ def protocol_6(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=b
 
     return model_errors, rshap_errors
 
-p6_model_errors, p6_errors = protocol_6(model, test_dataset, device)
 
 
-def protocol_7(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=best_config[1], output_dir=output_directory):
+def protocol_7(model, test_dataset, device, n_regions=8,ref='gir', vs='logit', output_dir='results/'):
     """
     Protocol 7: Per class with region partition.
     """
@@ -793,10 +784,9 @@ def protocol_7(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=b
         plt.show()
 
 
-protocol_7(model, test_dataset, device)
 
 
-def protocol_8(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=best_config[1],output_dir=output_directory):
+def protocol_8(model, test_dataset, device, n_regions=8,ref='gir', vs='logit',output_dir='results/'):
 
     os.makedirs(output_dir, exist_ok=True)
 
@@ -863,10 +853,9 @@ def protocol_8(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=b
     df.to_csv(f'{output_dir}protocol8.csv', index=False)
     return stats
 
-p8_stats = protocol_8(model, test_dataset, device)
 
 
-def protocol_10_reference_comparison(model, test_dataset, device, n_regions=8,output_dir=output_directory):
+def protocol_10_reference_comparison(model, test_dataset, device, n_regions=8,output_dir='results/'):
     """
     Protocol 10: Reference Mechanism Comparison.
     GIR is the primary mechanism. Zero/Mean/Noise are ablation comparisons.
@@ -950,10 +939,9 @@ def protocol_10_reference_comparison(model, test_dataset, device, n_regions=8,ou
 
     return all_results
 
-p10_results = protocol_10_reference_comparison(model, test_dataset, device)
 
 
-def protocol_11_critical_points(model, test_dataset, device, n_regions=8,output_dir=output_directory):
+def protocol_11_critical_points(model, test_dataset, device, n_regions=8,output_dir='results/'):
 
     os.makedirs(output_dir, exist_ok=True)
 
@@ -1057,10 +1045,9 @@ def protocol_11_critical_points(model, test_dataset, device, n_regions=8,output_
 
     return all_distributions
 
-p11_results = protocol_11_critical_points(model, test_dataset, device)
 
 
-def protocol_12(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=best_config[1],output_dir=output_directory):
+def protocol_12(model, test_dataset, device, n_regions=8,ref='gir', vs='logit',output_dir='results/'):
     """
     Protocol 9: Ablation study.
     """
@@ -1166,6 +1153,5 @@ def protocol_12(model, test_dataset, device, n_regions=8,ref=best_config[0], vs=
 
     return results
 
-p12_results = protocol_12(model, test_dataset, device)
 
 

@@ -126,7 +126,3 @@ class PointNet(nn.Module):
         if return_features:
             return x, global_feature, point_features
         return x
-
-# Create model
-n_classes = len(train_dataset.classes)
-model = PointNet(n_classes=n_classes, use_tnet=True).to(device)
