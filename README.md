@@ -103,7 +103,7 @@ pip install -r requirements.txt
 python train.py
 ```
 
-This downloads ModelNet10 automatically, trains PointNet for 20 epochs, and saves the best checkpoint to `models/best\_model.pth`.
+This downloads ModelNet10 automatically, trains PointNet for 20 epochs, and saves the best checkpoint to `models/best_model.pth`.
 
 ### Step 2: Run R-SHAP Analysis
 
