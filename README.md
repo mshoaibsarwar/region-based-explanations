@@ -108,7 +108,7 @@ This downloads ModelNet10 automatically, trains PointNet for 20 epochs, and save
 ### Step 2: Run R-SHAP Analysis
 
 ```bash
-python run\_rshap.py
+python run_rshap.py
 ```
 
 This runs the complete R-SHAP pipeline with all validation protocols and saves figures to `results/`.
@@ -116,30 +116,30 @@ This runs the complete R-SHAP pipeline with all validation protocols and saves f
 ### Using Individual Components
 
 ```python
-from src.data import create\_datasets
+from src.data import create_datasets
 from src.model import PointNet
 from src.rshap import RegionSHAP
 
 # Load data and model
-\_, test\_dataset, \_, \_ = create\_datasets()
-model = PointNet(n\_classes=10).to(device)
-model.load\_state\_dict(torch.load('models/best\_model.pth'))
+_, test_dataset, _, _ = create_datasets()
+model = PointNet(n_classes=10).to(device)
+model.load_state_dict(torch.load('models/best_model.pth'))
 model.eval()
 
 # Create explainer (GIR primary, logit space)
 explainer = RegionSHAP(
     model=model,
-    reference\_mechanism='gir',
-    n\_regions=8,
-    n\_samples=1000,
+    reference_mechanism='gir',
+    n_regions=8,
+    n_samples=1000,
     device=device,
-    value\_space='logit'
+    value_space='logit'
 )
 
 # Explain a point cloud
-pc, label = test\_dataset\[0]
-importances, baseline, prediction, regions, target\_class = explainer.explain(
-    pc.numpy(), target\_class=label
+pc, label = test_dataset[0]
+importances, baseline, prediction, regions, target_class = explainer.explain(
+    pc.numpy(), target_class=label
 )
 print(f"Region importances: {importances}")
 ```
