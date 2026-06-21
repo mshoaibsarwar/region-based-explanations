@@ -33,7 +33,9 @@ The R-SHAP pipeline consists of four phases:
 
 GIR interpolation keeps perturbed points close to the original manifold, unlike zero replacement or random noise.
 
-!\[GIR Manifold Preservation](figures/protocol1\_sphere\_manifold.png)
+<p align="center">
+  <img src="figures/protocol1_sphere_manifold.png"/>
+</p>
 
 |Method|Mean Distance|Max Distance|
 |-|-|-|
